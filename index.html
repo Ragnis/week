@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Nädalakalkulaator</title>
+	<link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		body, html {
+			font-family: "Roboto", sans-serif;
+			font-size: 16px;
+			color: #000000;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		#outer {
+			height: 100%;
+			position: absolute;
+			text-align: center;
+			width: 100%;
+
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-box-pack: center;
+			-webkit-box-align: center;
+
+			display: -moz-box;
+			-moz-box-orient: vertical;
+			-moz-box-pack: center;
+			-moz-box-align: center;
+
+			display: box;
+			box-orient: vertical;
+			box-pack: center;
+			box-align: center;
+		}
+
+		.intro {
+			color: #444;
+			font-size: 1.8em;
+		}
+
+		input[type='text'] {
+			color: #666;
+			font-family: "Roboto", sans-serif;
+			font-size: 1em;
+			background: bottom left linear-gradient(#a9a9a9, #a9a9a9) no-repeat,
+				bottom center linear-gradient(#a9a9a9, #a9a9a9) repeat-x,
+				bottom right linear-gradient(#a9a9a9, #a9a9a9) no-repeat;
+			background-size: 1px 6px, 1px 1px, 1px 6px;
+			border: none;
+			display: inline-block;
+			margin: 0;
+			outline: none;
+			padding: 0 5px;
+			position: relative;
+			text-align: center;
+			width: 120px;
+		}
+
+		input[type='text']:hover, input[type='text']:focus {
+			background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat,
+				bottom center linear-gradient(#0099cc, #0099cc) repeat-x,
+				bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
+			background-size: 1px 6px, 1px 1px, 1px 6px; 
+		} 
+
+		.madeby {
+			bottom: 10px;
+			color: #999;
+			font-size: 1em;
+			opacity: 0.6;
+			position: fixed;
+			right: 10px;
+		}
+
+		.madeby:hover {
+			opacity: 1;
+		}
+
+		.madeby a {
+			color: #999;
+		}
+	</style>
+</head>
+<body>
+	<div id="outer">
+		<div class="intro">Kuupäev
+			<input type="text" id="date" class="date" maxlength="10" /> asub nädalal number
+			<input type="text" id="week" class="week" maxlength="2" />
+		</div>
+	</div>
+
+	<div class="madeby">
+		Made by <a href="http://aragnis.com">Ragnis Armus</a>, 2014
+	</div>
+
+	<script>
+		function calculateSemesterBegin(date)
+		{
+			var date = new Date(date);
+			var reldate = (date.getMonth() * 31) + date.getDate();
+
+			if (reldate >= 41 && reldate < (31 * 8))
+			{
+				return Date.parse(date.getFullYear() + "-02-10");
+			}
+
+			return Date.parse(date.getFullYear() + "-09-01");
+		}
+
+		function calculateWeek(date)
+		{
+			var semester = calculateSemesterBegin(date);
+			var delta = date - semester;
+			return Math.floor(delta / (1000 * 3600 * 24 * 7)) + 1;
+		}
+
+		function calculateMondate(week)
+		{
+			var semester = calculateSemesterBegin(Date.now());
+			var date = semester + (1000 * 3600 * 24 * 7) * (week - 1);
+			date -= 3600 * 24 * (new Date(date)).getDay();
+			return date;
+		}
+
+		function formatDate(date)
+		{
+			var date = new Date(date);
+			var month = ("0" + (date.getMonth() + 1)).substr(-2);
+			var day = ("0" + date.getDate()).substr(-2);
+			return date.getFullYear() + "-" + month + "-" + day;
+		}
+
+		function measureText(className, text)
+		{
+			var element = document.createElement('div');
+			element.style.position = "absolute";
+			element.style.top = "-9999px";
+			element.className = className;
+			element.innerText = text;
+
+			document.body.appendChild(element);
+			var size = element.clientWidth;
+			document.body.removeChild(element);
+
+			return size;
+		}
+
+		var inputDate = document.getElementById("date");
+		var inputWeek = document.getElementById("week");
+		inputDate.style.width = measureText("intro", "0000-00-00") + 3 + "px";
+		inputWeek.style.width = measureText("intro", "00") + 3 + "px";
+
+		inputDate.onkeyup = function (event)
+		{
+			inputWeek.value = calculateWeek(Date.parse(inputDate.value));
+		};
+
+		inputWeek.onkeyup = function (event)
+		{
+			inputDate.value = formatDate(calculateMondate(inputWeek.value));
+		};
+
+		inputDate.value = formatDate(Date.now());
+		inputDate.onkeyup();
+	</script>
+</body>
+</html>

@@ -214,8 +214,11 @@
 		var inputDate = document.getElementById("date");
 		var inputWeek = document.getElementById("week");
 
-		setInputWidth(inputDate, "0000-00-00");
-		setInputWidth(inputWeek, "00");
+		window.onload = function ()
+		{
+			setInputWidth(inputDate, "0000-00-00");
+			setInputWidth(inputWeek, "00");
+		};
 
 		inputDate.onkeyup = function (event)
 		{

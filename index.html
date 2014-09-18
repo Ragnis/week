@@ -20,20 +20,15 @@
 			text-align: center;
 			width: 100%;
 
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			-webkit-box-pack: center;
-			-webkit-box-align: center;
-
-			display: -moz-box;
-			-moz-box-orient: vertical;
-			-moz-box-pack: center;
-			-moz-box-align: center;
-
-			display: box;
-			box-orient: vertical;
-			box-pack: center;
-			box-align: center;
+			display: -ms-flexbox;
+			display: -webkit-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-align-items: center;
+			-webkit-flex-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			justify-content: center;
 		}
 
 		.text {
@@ -139,7 +134,7 @@
 			element.style.position = "absolute";
 			element.style.top = "-9999px";
 			element.className = className;
-			element.innerText = text;
+			element.textContent = text;
 
 			document.body.appendChild(element);
 			var size = element.clientWidth;
@@ -148,10 +143,21 @@
 			return size;
 		}
 
+		function setInputWidth(element, text)
+		{
+			var size = measureText("text", text);
+
+			if (size > 0)
+			{
+				element.style.width = (size + 3) + "px";
+			}
+		}
+
 		var inputDate = document.getElementById("date");
 		var inputWeek = document.getElementById("week");
-		inputDate.style.width = measureText("text", "0000-00-00") + 3 + "px";
-		inputWeek.style.width = measureText("text", "00") + 3 + "px";
+
+		setInputWidth(inputDate, "0000-00-00");
+		setInputWidth(inputWeek, "00");
 
 		inputDate.onkeyup = function (event)
 		{

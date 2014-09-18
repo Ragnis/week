@@ -96,13 +96,19 @@
 		{
 			var date = new Date(date);
 			var reldate = (date.getMonth() * 31) + date.getDate();
+			var year = date.getFullYear();
 
 			if (reldate >= 41 && reldate < (31 * 8))
 			{
-				return Date.parse(date.getFullYear() + "-02-10");
+				return Date.parse(year + "-02-10");
 			}
 
-			return Date.parse(date.getFullYear() + "-09-01");
+			if (reldate < 41)
+			{
+				year--;
+			}
+
+			return Date.parse(year + "-09-01");
 		}
 
 		function calculateWeek(date)

@@ -38,7 +38,7 @@
 			margin: 0 15px;
 		}
 
-		input[type='text'] {
+		.text input {
 			background: #fff;
 			color: #666;
 			font-family: "Roboto", sans-serif;
@@ -57,7 +57,7 @@
 			width: 120px;
 		}
 
-		input[type='text']:hover, input[type='text']:focus {
+		.text input:hover, .text input:focus {
 			background: bottom left linear-gradient(#0099cc, #0099cc) no-repeat,
 				bottom center linear-gradient(#0099cc, #0099cc) repeat-x,
 				bottom right linear-gradient(#0099cc, #0099cc) no-repeat;
@@ -100,8 +100,8 @@
 <body>
 	<div id="outer">
 		<div class="text">Kuupäev
-			<input type="text" id="date" class="date" maxlength="10" /> asub nädalal number
-			<input type="text" id="week" class="week" maxlength="2" />
+			<input type="tel" id="date" class="date" maxlength="10" /> asub nädalal number
+			<input type="tel" id="week" class="week" maxlength="2" />
 		</div>
 	</div>
 

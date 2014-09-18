@@ -128,6 +128,30 @@
 			return date.getFullYear() + "-" + month + "-" + day;
 		}
 
+		function parseDate(input)
+		{
+			var split = input.split('-');
+
+			for (var i = 0, c = split.length; i < c; i++)
+			{
+				if (split[i].length === 1)
+				{
+					split[i] = "0" + split[i];
+				}
+				else if (split[i].length === 0)
+				{
+					split[i] = "01";
+				}
+			}
+
+			if (split.length === 2 && split[0].length == 2)
+			{
+				split.unshift((new Date()).getFullYear());
+			}
+
+			return Date.parse(split.join('-'));
+		}
+
 		function measureText(className, text)
 		{
 			var element = document.createElement('div');
@@ -161,7 +185,7 @@
 
 		inputDate.onkeyup = function (event)
 		{
-			inputWeek.value = calculateWeek(Date.parse(inputDate.value));
+			inputWeek.value = calculateWeek(parseDate(inputDate.value)) || "";
 		};
 
 		inputWeek.onkeyup = function (event)

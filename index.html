@@ -36,7 +36,7 @@
 			box-align: center;
 		}
 
-		.intro {
+		.text {
 			color: #444;
 			font-size: 1.8em;
 		}
@@ -86,7 +86,7 @@
 </head>
 <body>
 	<div id="outer">
-		<div class="intro">Kuupäev
+		<div class="text">Kuupäev
 			<input type="text" id="date" class="date" maxlength="10" /> asub nädalal number
 			<input type="text" id="week" class="week" maxlength="2" />
 		</div>
@@ -150,8 +150,8 @@
 
 		var inputDate = document.getElementById("date");
 		var inputWeek = document.getElementById("week");
-		inputDate.style.width = measureText("intro", "0000-00-00") + 3 + "px";
-		inputWeek.style.width = measureText("intro", "00") + 3 + "px";
+		inputDate.style.width = measureText("text", "0000-00-00") + 3 + "px";
+		inputWeek.style.width = measureText("text", "00") + 3 + "px";
 
 		inputDate.onkeyup = function (event)
 		{

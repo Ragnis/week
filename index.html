@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
 	<title>Nädalakalkulaator</title>
 	<link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
 	<style type="text/css">
@@ -76,6 +77,17 @@
 
 		.madeby a {
 			color: #999;
+		}
+
+		@media only screen and (max-width: 786px) {
+			body {
+				font-size: 20px;
+			}
+
+			.text input {
+				display: block;
+				margin: 10px auto 15px auto;
+			}
 		}
 	</style>
 </head>

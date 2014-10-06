@@ -120,18 +120,12 @@
 	</div>
 
 	<script>
-		function calculateSemesterBegin(date)
+		function calculateBegin(date)
 		{
 			var date = new Date(date);
-			var reldate = (date.getMonth() * 31) + date.getDate();
 			var year = date.getFullYear();
 
-			if (reldate >= 41 && reldate < (31 * 8))
-			{
-				return Date.parse(year + "-02-10");
-			}
-
-			if (reldate < 41)
+			if (date.getMonth() < 8)
 			{
 				year--;
 			}
@@ -141,14 +135,14 @@
 
 		function calculateWeek(date)
 		{
-			var semester = calculateSemesterBegin(date);
+			var semester = calculateBegin(date);
 			var delta = date - semester;
 			return Math.floor(delta / (1000 * 3600 * 24 * 7)) + 1;
 		}
 
 		function calculateMondate(week)
 		{
-			var semester = calculateSemesterBegin(Date.now());
+			var semester = calculateBegin(Date.now());
 			var date = semester + (1000 * 3600 * 24 * 7) * (week - 1);
 			date -= 3600 * 24 * (new Date(date)).getDay();
 			return date;

@@ -130,7 +130,15 @@
 				year--;
 			}
 
-			return Date.parse(year + "-09-01");
+			var sept1 = new Date(year + '-09-01');
+			var day = sept1.getDay() - 1;
+
+			if (day === -1)
+			{
+				day = 6;
+			}
+
+			return sept1.getTime() - (day * 86400 * 1000);
 		}
 
 		function calculateWeek(date)

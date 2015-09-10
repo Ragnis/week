@@ -125,12 +125,8 @@
 </head>
 <body>
 	<div id="outer">
-		<div class="text">Kuupäev
-			<div class="date">
-				<input type="tel" id="date" class="date" maxlength="10" />
-				<span class="hint" id="datehint"></span>
-			</div> asub nädalal number
-			<input type="tel" id="week" class="week" maxlength="2" />
+		<div class="text" id="mainarea">
+			Initializing...
 		</div>
 	</div>
 
@@ -139,6 +135,18 @@
 	</div>
 
 	<script>
+		var language = 'en';
+		var strings = {
+			et: {
+				main: 'Kuupäev :date: asub nädalal :week:',
+				monday: 'esmaspäev'
+			},
+			en: {
+				main: 'The date :date: is on week :week:',
+				monday: 'monday'
+			}
+		};
+
 		function calculateBegin(date)
 		{
 			var date = new Date(date);
@@ -235,8 +243,29 @@
 		function updateDateHint(element, date)
 		{
 			date = new Date(date);
-			dateHint.innerHTML = (date.getDay() === 1) ? '(monday)' : '&nbsp;';
+			dateHint.innerHTML = (date.getDay() === 1) ? '(' + strings[language].monday + ')' : '&nbsp;';
 		}
+
+		if (navigator.languages)
+		{
+			for (var i = 0; i < navigator.languages.length; i++)
+			{
+				var lang = navigator.languages[i].split('-')[0];
+
+				if (typeof strings[lang] === 'object')
+				{
+					language = lang;
+					break;
+				}
+			}
+		}
+
+		document.getElementById('mainarea').innerHTML = strings[language].main.
+			replace(':date:', '<div class="date">' +
+					'<input type="tel" id="date" class="date" maxlength="10" />' +
+					'<span class="hint" id="datehint"></span>' +
+				'</div>').
+			replace(':week:', '<input type="tel" id="week" class="week" maxlength="2" />');
 
 		var inputDate = document.getElementById("date");
 		var inputWeek = document.getElementById("week");

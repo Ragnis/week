@@ -74,6 +74,22 @@
 			background-size: 1px 6px, 1px 1px, 1px 6px;
 		}
 
+		.text .date {
+			display: inline-block;
+			text-align: center;
+			vertical-align: top;
+		}
+
+		.text .date .hint,
+		.text .date input {
+			display: block;
+		}
+
+		.text .date .hint {
+			font-size: 0.6em;
+			color: #aaa;
+		}
+
 		.madeby {
 			bottom: 10px;
 			color: #999;
@@ -110,7 +126,10 @@
 <body>
 	<div id="outer">
 		<div class="text">Kuupäev
-			<input type="tel" id="date" class="date" maxlength="10" /> asub nädalal number
+			<div class="date">
+				<input type="tel" id="date" class="date" maxlength="10" />
+				<span class="hint" id="datehint"></span>
+			</div> asub nädalal number
 			<input type="tel" id="week" class="week" maxlength="2" />
 		</div>
 	</div>
@@ -213,8 +232,15 @@
 			}
 		}
 
+		function updateDateHint(element, date)
+		{
+			date = new Date(date);
+			dateHint.innerHTML = (date.getDay() === 1) ? '(monday)' : '&nbsp;';
+		}
+
 		var inputDate = document.getElementById("date");
 		var inputWeek = document.getElementById("week");
+		var dateHint = document.getElementById("datehint");
 
 		window.onload = function ()
 		{
@@ -224,12 +250,18 @@
 
 		inputDate.onkeyup = function (event)
 		{
-			inputWeek.value = calculateWeek(parseDate(inputDate.value)) || "";
+			var date = parseDate(inputDate.value);
+
+			inputWeek.value = calculateWeek(date) || "";
+			updateDateHint(dateHint, date);
 		};
 
 		inputWeek.onkeyup = function (event)
 		{
-			inputDate.value = formatDate(calculateMondate(inputWeek.value));
+			var date = calculateMondate(inputWeek.value);
+
+			inputDate.value = formatDate(date);
+			updateDateHint(dateHint, date);
 		};
 
 		inputDate.value = formatDate(Date.now());
